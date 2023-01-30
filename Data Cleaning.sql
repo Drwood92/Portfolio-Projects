@@ -1,4 +1,10 @@
 /****** Script for SelectTopNRows command from SSMS  ******/
+
+/*****The source file used for this data cleaning project was obtained from AlexTheAnalyst github's page given below*****/
+https://github.com/AlexTheAnalyst/PortfolioProjects/blob/main/Nashville%20Housing%20Data%20for%20Data%20Cleaning.xlsx
+/**** The aim of the project is develop data cleaning skill which is a vital aspect of business analysis with the objective been fixing data that is incorrect, inaacurate or irrelevant to the aim of the project*****/
+/**** The is an housing dataset that describes propereties that are been sold and agencies that are in charge of the sales****/
+
 -- Selectung all columns from the data set
 SELECT *
   FROM [PortfolioProject].[dbo].[NashvilleHousing];
