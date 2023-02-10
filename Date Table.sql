@@ -73,16 +73,16 @@ FROM shelvy
 /*****Updated the date table to include seasons, below is the code created*****/
 
 ALTER TABLE shelvy
-  ADD Season TEXT NULL
+ADD Season TEXT NULL
 
   SELECT CalendarDate, CASE WHEN CalendarMonth BETWEEN 3 AND 5 THEN 'Spring'
-						    WHEN CalendarMonth BETWEEN 6 AND 8 THEN 'Summer'
-							WHEN CalendarMonth  BETWEEN 9 AND 11 THEN 'Fall(Autumn)'
-							ELSE 'Winter' END AS ejo
+			    WHEN CalendarMonth BETWEEN 6 AND 8 THEN 'Summer'
+			    WHEN CalendarMonth  BETWEEN 9 AND 11 THEN 'Fall(Autumn)'
+			    ELSE 'Winter' END AS ejo
   FROM shelvy
 
   UPDATE shelvy
   SET Season = CASE WHEN CalendarMonth BETWEEN 3 AND 5 THEN 'Spring'
-						    WHEN CalendarMonth BETWEEN 6 AND 8 THEN 'Summer'
-							WHEN CalendarMonth  BETWEEN 9 AND 11 THEN 'Fall(Autumn)'
-							ELSE 'Winter' END
+		    WHEN CalendarMonth BETWEEN 6 AND 8 THEN 'Summer'
+		    WHEN CalendarMonth  BETWEEN 9 AND 11 THEN 'Fall(Autumn)'
+		    ELSE 'Winter' END
