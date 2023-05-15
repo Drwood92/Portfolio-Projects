@@ -170,21 +170,21 @@ HAVING COUNT(Orders.Order_Id) > 1
 ORDER BY total_no_of_Orders DESC
 
 
---Average rating of products sold on Olist
-SELECT Product_Category_Name_English, COUNT(OD.Order_Id) AS Total_Orders, ROUND(AVG(Review_Score),2) AS Average_Review_Score, ROUND(SUM(OP.Payment_Value),2) AS revenue
-FROM Product_Category AS PC
-INNER JOIN Products AS P
-ON PC.Product_Category_Name=P.Product_Category_Name
-INNER JOIN Order_Items AS OI
-ON P.Product_Id = OI.product_id
-INNER JOIN Orders AS OD
-ON OI.order_id = OD.Order_Id
-INNER JOIN Order_Payment AS OP
-ON OD.Order_Id = OP.Order_Id
-INNER JOIN Order_Reviews AS ORS
-ON OP.Order_Id = ORS.Order_Id
-GROUP BY Product_Category_Name_English
-ORDER BY Total_Orders DESC
+--Average rating of products sold on Olist by customers and the revenues obtained from each product
+SELECT PC.Product_Category_Name_English, ROUND(AVG(ORS.Review_Score),2) AS Avg_Review_Score, COUNT(DISTINCT OD.Order_Id) AS Total_Orders, ROUND(SUM(OP.Payment_Value),2) AS Total_Revenue
+FROM Order_Reviews ORS
+INNER JOIN Orders OD
+ON ORS.Order_Id=OD.Order_Id
+INNER JOIN Order_Payment OP
+ON ORS.Order_Id=OP.Order_Id
+INNER JOIN Order_Items OI
+ON ORS.Order_Id=OI.order_id
+INNER JOIN Products  PS
+ON OI.product_id=PS.Product_Id
+INNER JOIN Product_Category PC
+ON PS.Product_Category_Name = PC.Product_Category_Name
+GROUP BY PC.Product_Category_Name_English
+ORDER BY 4 DESC
 
 
 
