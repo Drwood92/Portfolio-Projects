@@ -186,7 +186,9 @@ ON PS.Product_Category_Name = PC.Product_Category_Name
 GROUP BY PC.Product_Category_Name_English
 ORDER BY 4 DESC
 
---Order cancellation rate of each sellers (This gives the seller_Id, totalorders and the canceled orders for each seller and the revenue for each seller)
+
+
+--Order cancellation rate of each sellers
 SELECT SS.Seller_Id, COUNT(DISTINCT OD.Order_Id) AS Total_Number_of_Order, 
 	 COUNT(CASE WHEN OD.Order_Status = 'canceled' THEN 1 END) AS Total_No_Canceled_Orders, 
 	 ROUND(CONVERT(FLOAT,COUNT(CASE WHEN OD.Order_Status = 'canceled' THEN 1 END))/COUNT(DISTINCT OD.Order_Id) *100,2) AS Cancelation_Rate,
@@ -200,4 +202,19 @@ INNER JOIN Order_Payment AS OP
 ON OD.Order_ID = OP.Order_ID
 GROUP BY SS.Seller_Id
 ORDER BY 2 DESC
+
+--Getting the revenue of canceled orders for each sellers 
+SELECT SS.Seller_Id, COUNT(DISTINCT OD.Order_Id) AS Total_Number_of_canceled_Order, 
+	 SUM(OP.Payment_Value) AS Revenue
+FROM Sellers AS SS
+INNER JOIN Order_Items AS OI
+ON SS.Seller_ID = OI.seller_id
+INNER JOIN ORDERS OD
+ON OI.order_id = OD.Order_Id
+INNER JOIN Order_Payment AS OP
+ON OD.Order_ID = OP.Order_ID
+WHERE OD.Order_Status = 'canceled'
+GROUP BY SS.Seller_Id
+
+
 
