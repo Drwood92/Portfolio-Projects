@@ -219,7 +219,7 @@ ORDER BY 3 DESC
 
 
 --Revenue from each Product Category per Year 
-SELECT DISTINCT Product_Category_Name_English, YEAR(OD.Order_Date) AS Years, SUM(OP.Payment_Value) AS Revenue_Per_Product
+SELECT DISTINCT Product_Category_Name_English, YEAR(OD.Order_Date) AS Years, COUNT(DISTINCT OD.Order_Id) AS Orders_per_Product, ROUND(SUM(OP.Payment_Value),2) AS Revenue_Per_Product
 FROM Product_Category AS PC
 LEFT JOIN Products AS PD
 ON PC.Product_Category_Name = PD.Product_Category_Name
@@ -230,9 +230,31 @@ ON OI.order_id = OD.Order_Id
 LEFT JOIN Order_Payment AS OP
 ON OD.Order_Id = OP.Order_Id
 GROUP BY YEAR (OD.Order_Date), Product_Category_Name_English
-ORDER BY Years
+ORDER BY Years, Orders_per_Product DESC
 
 
+--Category of payment_methods used across olist website
+SELECT Payment_Type, YEAR(OD.Order_Date) AS Year, COUNT(DISTINCT OD.Order_Id) AS Orders_per_Type, ROUND(SUM(OP.Payment_Value),2) AS Revenue
+FROM Order_Payment AS OP
+LEFT JOIN Orders AS OD
+ON OP.Order_Id = OD.Order_Id
+GROUP BY Payment_Type,  YEAR(OD.Order_Date)
+ORDER BY Year, Orders_per_Type DESC
+
+
+-- Payment methods based on product categories
+SELECT DISTINCT Product_Category_Name_English, OP.Payment_Type AS Payment_Method, YEAR(OD.Order_Date) AS Years, COUNT(DISTINCT OD.Order_Id) AS Orders_per_Product, ROUND(SUM(OP.Payment_Value),2) AS Revenue_Per_Product
+FROM Product_Category AS PC
+LEFT JOIN Products AS PD
+ON PC.Product_Category_Name = PD.Product_Category_Name
+LEFT JOIN Order_Items AS OI
+ON PD.product_id = OI.product_id
+LEFT JOIN Orders AS OD
+ON OI.order_id = OD.Order_Id
+LEFT JOIN Order_Payment AS OP
+ON OD.Order_Id = OP.Order_Id
+GROUP BY YEAR (OD.Order_Date), Product_Category_Name_English,OP.Payment_Type 
+ORDER BY 2, Years
 
 
 
