@@ -215,6 +215,24 @@ INNER JOIN Order_Payment AS OP
 ON OD.Order_ID = OP.Order_ID
 WHERE OD.Order_Status = 'canceled'
 GROUP BY SS.Seller_Id
+ORDER BY 3 DESC
+
+
+--Revenue from each Product Category per Year 
+SELECT DISTINCT Product_Category_Name_English, YEAR(OD.Order_Date) AS Years, SUM(OP.Payment_Value) AS Revenue_Per_Product
+FROM Product_Category AS PC
+LEFT JOIN Products AS PD
+ON PC.Product_Category_Name = PD.Product_Category_Name
+LEFT JOIN Order_Items AS OI
+ON PD.product_id = OI.product_id
+LEFT JOIN Orders AS OD
+ON OI.order_id = OD.Order_Id
+LEFT JOIN Order_Payment AS OP
+ON OD.Order_Id = OP.Order_Id
+GROUP BY YEAR (OD.Order_Date), Product_Category_Name_English
+ORDER BY Years
+
+
 
 
 
