@@ -267,6 +267,33 @@ GROUP BY Review_Comment
 ORDER BY Total_Revenue DESC
 
 
+--Product_Categories with their  net profit margin
+SELECT Product_Category_Name_English,
+	   ROUND(SUM(OI.Price),2) AS Price,  
+	   ROUND(SUM(OI.Freight_Value),2) AS Freight_Cost, 
+	   ROUND(SUM(OP.Payment_Value),2) AS Total_Revenue,
+	   ROUND(SUM(OP.Payment_Value-OI.Price-OI.Freight_Value)/SUM(OP.Payment_Value) * 100, 2) AS Net_Profit_Margin
+FROM Product_Category AS PC
+LEFT JOIN Products AS PD
+ON PC.Product_Category_Name = PD.Product_Category_Name
+LEFT JOIN Order_Items AS OI
+ON PD.Product_Id = OI.product_id
+LEFT JOIN Order_Payment AS OP
+ON OI.order_id = OP.Order_Id
+GROUP BY Product_Category_Name_English
+ORDER BY Net_Profit_Margin DESC
 
+
+
+
+
+SELECT *
+FROM Order_Payment
+
+SELECT *
+FROM Order_Items
+
+SELECT *
+FROM Product_Category
 
 
