@@ -256,5 +256,17 @@ ON OD.Order_Id = OP.Order_Id
 GROUP BY YEAR (OD.Order_Date), Product_Category_Name_English,OP.Payment_Type 
 ORDER BY 2, Years
 
+--How customers rate the transactions on the ecommerce site
+SELECT Review_Comment, COUNT(DISTINCT OD.Order_Id) AS total_transaction, ROUND(SUM(Payment_Value),2) AS Total_Revenue
+FROM Order_Reviews AS ORV
+LEFT JOIN Orders AS OD
+ON ORV.Order_Id = OD.Order_Id
+LEFT JOIN Order_Payment AS OP
+ON OD.Order_Id = OP.Order_Id
+GROUP BY Review_Comment
+ORDER BY Total_Revenue DESC
+
+
+
 
 
