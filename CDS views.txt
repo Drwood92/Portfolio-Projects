@@ -1,0 +1,27 @@
+@AbapCatalog.viewEnhancementCategory: [#NONE]
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Join Methods'
+@Metadata.ignorePropagatedAnnotations: true
+@ObjectModel.usageType:{
+    serviceQuality: #X,
+    sizeCategory: #S,
+    dataClass: #MIXED
+}
+define view entity ZI_CYRIL_J1_VBAP as select from vbap as v1
+inner join vbak as v2 on v1.vbeln = v2.vbeln
+inner join t001 as T1 on v2.vkorg = T1.bukrs
+{
+
+    key v1.vbeln,
+        v1.posnr,
+    @EndUserText.label: 'Material'
+        v1.matnr,
+        v2.vkorg,
+        T1.butxt,
+        v1.matwa,
+        v1.pmatn,
+    @Semantics.quantity.unitOfMeasure: 'zieme'
+        v1.zmeng,
+        v1.zieme
+    
+}
